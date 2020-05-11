@@ -1,5 +1,5 @@
-ln -Ff -s `pwd`/tmux/tmux.conf ~/.tmux.conf
-ln -Ff -s `pwd`/vim/vimrc ~/.vimrc
-ln -Ff -s `pwd`/zsh/zshrc ~/.zshrc
+ln -f -s `pwd`/tmux/tmux.conf ~/.tmux.conf
+ln -f -s `pwd`/vim/vimrc ~/.vimrc
+ln -f -s `pwd`/zsh/zshrc ~/.zshrc
 mkdir -p ~/.config/alacritty/
-ln -Ff -s `pwd`/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
+ln -f -s `pwd`/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
