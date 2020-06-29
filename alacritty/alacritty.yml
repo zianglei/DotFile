@@ -98,6 +98,8 @@ key_bindings:
   - { key: Y, mods: Alt|Shift, chars: "\x1bY" }
   - { key: Z, mods: Alt|Shift, chars: "\x1bZ" }
   - { key: Equals, mods: Alt, chars: "\x1b="}
+
+  - { key: Equals, mods: Shift, chars: "+"}
     # - { key: Grave, mods: Alt, chars: "\x1b`"}
   - { key: A, mods: Alt, chars: "\x1ba"}
   - { key: B, mods: Alt, chars: "\x1bb"}
