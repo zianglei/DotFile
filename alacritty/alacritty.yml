@@ -7,11 +7,11 @@ window:
     x: 10
     y: 10
   decorations: none
+  dynamic_title: true
 scrolling:
   history: 10000
   multiplier: 3
 background_opacity: .9
-dynamic_title: true
 
 # Font Customization
 font:
