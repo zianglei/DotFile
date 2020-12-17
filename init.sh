@@ -12,6 +12,7 @@ echo ${machine}
 if [ ${machine} == "Linux" ]; then
 	sudo apt update
 	sudo apt install python3-dev build-essential git cmake vim tmux -y
+	sudo apt install ctags global
 elif [ ${machine} == "Mac" ]; then
 	brew install cmake macvim python tmux alacritty
 	# 配置alacritty
