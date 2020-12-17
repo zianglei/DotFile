@@ -23,7 +23,7 @@ fi
 # 配置vim
 ##############
 
-mkdir -p ~/.vim && cd ~/.vim && git clone https://github.com/zianglei/vim-init.git
+mkdir -p ~/.vim && git clone https://github.com/zianglei/vim-init.git ~/.vim/vim-init
 ln -f -s `pwd`/vim/vimrc ~/.vimrc
 source ~/.vimrc
 # 安装插件
