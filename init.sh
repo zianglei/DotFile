@@ -29,7 +29,7 @@ source ~/.vimrc
 # 安装插件
 vim -E -c PlugInstall -c qall
 # 编译YouCompleteMe
-cd ~/.vim/bundle/YouCompleteMe && python3 install.py --all
+~/.vim/bundles/YouCompleteMe/install.py --all
 
 #git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 #git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
