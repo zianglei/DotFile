@@ -42,6 +42,7 @@ git config --global http.proxy http://127.0.0.1:${v2ray_http_port}
 git config --global https.proxy http://127.0.0.1:${v2ray_http_port}
 git config --global user.email zianglei@126.com
 git config --global user.name zianglei
+git config --global http.sslVerify false
 
 ############## 安装 oh-my-zsh ##################
 echo "=========> Install oh-my-zsh"
