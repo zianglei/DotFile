@@ -1,6 +1,9 @@
 #!/bin/bash
 # TODO: 判断主题文件夹是否存在，autosuggestions和syntax-highlighting，autojump是否安装
 
+v2ray_pkg_name=v2ray-4.43.0-amd64.deb
+v2ray_http_port=1080
+
 # 判断系统类型
 systemtype="$(uname -s)"
 case "${systemtype}" in
@@ -14,12 +17,32 @@ if [ ${machine} == "Linux" ]; then
 	sudo apt update
 	sudo apt install python3-dev build-essential git cmake vim tmux -y
 	sudo apt install ctags global -y
+	sudo apt install zsh curl wget proxychains4 -y
 elif [ ${machine} == "Mac" ]; then
 	brew install cmake macvim python tmux alacritty
 	# 配置alacritty
 	mkdir -p ~/.config/alacritty/
 	ln -f -s `pwd`/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
 fi
+
+################ 安装 v2ray ###############
+sudo dpkg -i ${v2ray_pkg_name}
+sudo rm /etc/v2ray/config.json
+cd /etc/v2ray && sudo ln -s client.json config.json
+sudo cp v2ray/client.json /etc/v2ray/config.json 
+sudo service v2ray restart
+
+############### 配置 git ##################
+git config --global http.proxy http://127.0.0.1:${v2ray_http_port}
+git config --global https.proxy http://127.0.0.1:${v2ray_http_port}
+git config --global user.email zianglei@126.com
+git config --global user.name zianglei
+
+############## 安装 oh-my-zsh ##################
+proxychains sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/agkozak/zsh-z $ZSH_CUSTOM/plugins/zsh-z
+ln -sf `pwd`/arch/${machine}/.zshrc.common $HOME/.zshrc.common
+echo "source ~/.zshrc.common" >> $HOME/.zshrc
 
 ##############
 # 配置vim
@@ -34,8 +57,6 @@ vim -E -c PlugInstall -c qall
 
 #git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 #git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-#git clone https://github.com/agkozak/zsh-z $ZSH_CUSTOM/plugins/zsh-z
 
-# 配置tmux
+############### 配置tmux ##################
 ln -f -s `pwd`/tmux/tmux.conf ~/.tmux.conf
-#ln -f -s `pwd`/zsh/zshrc ~/.zshrc
