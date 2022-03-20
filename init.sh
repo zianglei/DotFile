@@ -28,18 +28,23 @@ fi
 ################ 安装 v2ray ###############
 sudo dpkg -i ${v2ray_pkg_name}
 sudo rm /etc/v2ray/config.json
-cd /etc/v2ray && sudo ln -s client.json config.json
+pushd /etc/v2ray && sudo ln -s client.json config.json && popd
 sudo cp v2ray/client.json /etc/v2ray/config.json 
 sudo service v2ray restart
 
+############### 配置 proxychains ##########
+ln -s `pwd`/proxychains.conf /etc/proxychains4.conf
+
 ############### 配置 git ##################
+echo "=========> Configure git"
 git config --global http.proxy http://127.0.0.1:${v2ray_http_port}
 git config --global https.proxy http://127.0.0.1:${v2ray_http_port}
 git config --global user.email zianglei@126.com
 git config --global user.name zianglei
 
 ############## 安装 oh-my-zsh ##################
-proxychains sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+echo "=========> Install oh-my-zsh"
+proxychains4 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/agkozak/zsh-z $ZSH_CUSTOM/plugins/zsh-z
 ln -sf `pwd`/arch/${machine}/.zshrc.common $HOME/.zshrc.common
 echo "source ~/.zshrc.common" >> $HOME/.zshrc
@@ -60,3 +65,6 @@ vim -E -c PlugInstall -c qall
 
 ############### 配置tmux ##################
 ln -f -s `pwd`/tmux/tmux.conf ~/.tmux.conf
+
+############### 设置默认shell 为 zsh ##########
+chsh -s `which zsh`
