@@ -33,7 +33,7 @@ sudo cp v2ray/client.json /etc/v2ray/config.json
 sudo service v2ray restart
 
 ############### 配置 proxychains ##########
-ln -s `pwd`/proxychains.conf /etc/proxychains4.conf
+ln -sf `pwd`/proxychains.conf /etc/proxychains4.conf
 
 ############### 配置 git ##################
 echo "=========> Configure git"
