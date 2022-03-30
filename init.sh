@@ -18,9 +18,8 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githu
 # 安装依赖
 if [ ${machine} == "Linux" ]; then
 	sudo apt update
-	sudo apt install python3-dev build-essential git cmake vim tmux python-pip -y
-	sudo apt install gh -y
-	sudo apt install ctags global -y
+	sudo apt install python3-dev build-essential git cmake vim tmux python3-pip -y
+	sudo apt install universal-ctags global -y
 	sudo apt install zsh curl wget proxychains4 -y
 elif [ ${machine} == "Mac" ]; then
 	brew install cmake macvim python tmux alacritty
