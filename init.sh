@@ -20,7 +20,7 @@ if [ ${machine} == "Linux" ]; then
 	sudo apt update
 	sudo apt install python3-dev build-essential git cmake vim tmux python3-pip -y
 	sudo apt install universal-ctags global -y
-	sudo apt install zsh curl wget proxychains4 -y
+	sudo apt install zsh bc curl wget proxychains4 -y
 elif [ ${machine} == "Mac" ]; then
 	brew install cmake macvim python tmux alacritty
 	# 配置alacritty
