@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/lei/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 export LC_ALL=en_IN.UTF-8
 export LANG=en_IN.UTF-8
 
@@ -102,5 +102,3 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-export http_proxy=http://127.0.0.1:1080
-export https_proxy=http://127.0.0.1:1080

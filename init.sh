@@ -57,8 +57,10 @@ git config --global http.sslVerify false
 #    sleep 0.1
 #done
 #https_proxy=http://127.0.0.1:${v2ray_http_port} curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ln -sf `pwd`/.zshrc $HOME/.zshrc
 ln -sf `pwd`/arch/${machine}/.zshrc $HOME/.zshrc.arch
+export ZSH_CUSTOM=$HOME/.oh-my-zsh/custom
 git clone https://github.com/agkozak/zsh-z $ZSH_CUSTOM/plugins/zsh-z
 
 ##############
@@ -70,7 +72,8 @@ ln -f -s `pwd`/vim/vimrc ~/.vimrc
 # 安装插件
 vim -E -c PlugInstall -c qall
 # 编译YouCompleteMe
-if [ -d "~/.vim/bundles/YouCompleteMe" ]; then
+if [ -d "$HOME/.vim/bundles/YouCompleteMe" ]; then
+  echo "Compile YCM"
   pip install --user cmake
   export PATH=$HOME/.local/bin:$PATH
   ~/.vim/bundles/YouCompleteMe/install.py --clangd-completer
@@ -95,11 +98,13 @@ else
   pushd ccls
   llvm_dir=$(find /usr/lib -maxdepth 1 -name "llvm-*" | head -1)
   llvm_include_dir=$(find /usr/include -maxdepth 1 -name "llvm-*" | head -1)
+  llvm_version=$(llvm-config --version | awk -F. '{print $1}')
   if [[ -n "$llvm_dir" ]] && [[ -n "llvm_include_dir" ]]; then
+	sudo apt install libclang-${llvm_version}-dev -y
 	cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release \
   	    -DCMAKE_PREFIX_PATH=${llvm_dir} \
-  	    -DLLVM_INCLUDE_DIR=${llvm_dir}/include
-  	    -DLLVM_BUILD_INCLUDE_DIR=/usr/include/llvm-10
+  	    -DLLVM_INCLUDE_DIR=${llvm_dir}/include \
+  	    -DLLVM_BUILD_INCLUDE_DIR=${llvm_include_dir}
   	cmake --build Release
 	pushd Release && sudo make install
 	popd
