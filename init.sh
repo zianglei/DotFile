@@ -12,10 +12,14 @@ case "${systemtype}" in
 esac
 echo ${machine}
 
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+
 # 安装依赖
 if [ ${machine} == "Linux" ]; then
 	sudo apt update
 	sudo apt install python3-dev build-essential git cmake vim tmux python-pip -y
+	sudo apt install gh -y
 	sudo apt install ctags global -y
 	sudo apt install zsh curl wget proxychains4 -y
 elif [ ${machine} == "Mac" ]; then
@@ -35,6 +39,10 @@ sudo service v2ray restart
 
 ############### 配置 proxychains ##########
 ln -sf `pwd`/proxychains4.conf /etc/proxychains4.conf
+
+############### 安装 github cli ###########
+sudo apt install gh
+gh auth login
 
 ############### 配置 git ##################
 echo "=========> Configure git"
@@ -69,6 +77,36 @@ if [ -d "~/.vim/bundles/YouCompleteMe" ]; then
   ~/.vim/bundles/YouCompleteMe/install.py --clangd-completer
 fi
 
+######### 安装 ccls
+echo "========> Install ccls"
+git clone --depth=1 --recursive https://github.com/MaskRay/ccls
+os_version = "$(lsb_release -r | awk '{print $2}')"
+if [[ ${os_version} -lt 20.04 ]]; then
+  wget -c https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.0/clang+llvm-14.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz -O llvm.tar.xz
+  tar -xf llvm.tar.xz -C llvm-14
+
+  pushd ccls
+  cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=`pwd`/../llvm-14
+  cmake --build Release
+  pushd Release && sudo make install
+  popd
+  popd
+else
+  sudo apt install clang -y
+  pushd ccls
+  llvm_dir=$(find /usr/lib -maxdepth 1 -name "llvm-*" | head -1)
+  llvm_include_dir=$(find /usr/include -maxdepth 1 -name "llvm-*" | head -1)
+  if [[ -n "$llvm_dir" ]] && [[ -n "llvm_include_dir" ]]; then
+	cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release \
+  	    -DCMAKE_PREFIX_PATH=${llvm_dir} \
+  	    -DLLVM_INCLUDE_DIR=${llvm_dir}/include
+  	    -DLLVM_BUILD_INCLUDE_DIR=/usr/include/llvm-10
+  	cmake --build Release
+	pushd Release && sudo make install
+	popd
+  fi
+  popd
+fi
 #git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 #git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
