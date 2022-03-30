@@ -80,7 +80,7 @@ fi
 echo "========> Install ccls"
 git clone --depth=1 --recursive https://github.com/MaskRay/ccls
 os_version="$(lsb_release -r | awk '{print $2}')"
-if [[ ${os_version} -lt 20.04 ]]; then
+if [[ $(echo "${os_version} < 20.04" | bc -l) ]]; then
   wget -c https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.0/clang+llvm-14.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz -O llvm.tar.xz
   tar -xf llvm.tar.xz -C llvm-14
 
