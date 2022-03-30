@@ -56,8 +56,9 @@ git config --global http.sslVerify false
 #while ! nc -z localhost 1080; do
 #    sleep 0.1
 #done
-#https_proxy=http://127.0.0.1:${v2ray_http_port} curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+#https_proxy=http://127.0.0.1:${v2ray_http_port}
+# oh-my-zsh unattended install
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 ln -sf `pwd`/.zshrc $HOME/.zshrc
 ln -sf `pwd`/arch/${machine}/.zshrc $HOME/.zshrc.arch
 export ZSH_CUSTOM=$HOME/.oh-my-zsh/custom
